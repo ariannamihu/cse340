@@ -1,0 +1,14 @@
+.home-content{
+    display: block;
+  }
+
+  .hero-image{
+    margin: 0;
+    max-width: 70%;
+    height: auto;
+    margin-left: 10px;
+  }
+
+  #call-to-action {
+    width: 35%;
+  }
