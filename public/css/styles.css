@@ -158,3 +158,9 @@ nav ul li {
   border-radius: 15px;
   border-width: 5px;
 }
+
+
+.vehicle-detail {
+  display: grid;
+  grid-template-columns: 1fr, 1fr;
+}
