@@ -164,3 +164,16 @@ nav ul li {
   display: grid;
   grid-template-columns: 1fr, 1fr;
 }
+
+
+.form{
+  margin: 25px;
+  background-color: #a0d4eb;
+  border-radius: 15px;
+  padding: 15px;
+  
+}
+
+.email, .password, .login, .firstName, .lastName{
+  padding: 10px;
+}
