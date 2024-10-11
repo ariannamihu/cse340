@@ -25,15 +25,15 @@
         <h1><%= title %></h1>
         <div class=firstName>
             <label for="firstName">First name:</label>
-            <input type="text" id="firstName" name="account_firstname" required>
+            <input type="text" name="account_firstname" id="accountFirstname" required value="<%= locals.account_firstname %>">
         </div>
         <div class=lastName>
             <label for="lastName">Last name:</label>
-            <input type="text" id="lastName" name="account_lastname" required>
+            <input type="text" id="accountLastName" name="account_lastname" required value="<%= locals.account_lastname %>">
         </div>
         <div class=email>
             <label for="email">Email:</label>
-            <input type="email" id="email" name="account_email" required>
+            <input type="email" id="email" name="account_email" required value="<%= locals.account_email %>">
         </div>
         <div class="password">
             <label for="password">Password:</label>
