@@ -47,6 +47,76 @@ invCont.buildByInvId = async function (req, res, next) {
   }
 };
 
+/* ***************************
+ *  Build inventory by management view
+ * ************************** */
+invCont.buildByManagementView = async function (req, res, next) {
+  const nav = await utilities.getNav()
+  res.render("./inventory/management", {title: "Management", nav})
+}
+
+invCont.addClassificationView = async function (req, res, next) {
+  let nav = await utilities.getNav()
+  res.render("./inventory/add-classification", {
+    title: "Add New Classification",
+    nav,
+  })
+};
+
+invCont.addInventoryView = async function (req, res, next) {
+  let nav = await utilities.getNav()
+  const classificationList = await utilities.buildClassificationList();
+  res.render("./inventory/add-inventory", {
+    title: "Add New Inventory",
+    nav,
+    classifications: classificationList
+  })
+};
+
+/* ****************************************
+*  Process adding classification
+* *************************************** */
+invCont.addClassification = async function addClassification(req, res) {
+  let nav = await utilities.getNav()
+  const { classification_name } = req.body
+
+  const regResult = await invModel.addClassification(classification_name);
+
+    if (regResult) {
+        req.flash('notice', `Congratulations, you've added ${classification_name}.`);
+        return res.redirect('/inv/add-classification'); // Redirecting to a page to show the notice
+    } else {
+        req.flash('error', "Sorry, the classification addition failed.");
+        return res.redirect('/inv/add-classification'); // Redirecting to the same page with an error
+    }
+};
+
+/* ****************************************
+*  Process adding inventory
+* *************************************** */
+// invCont.getClassificationList = async function getClassificationList(req, res, next){
+//   const classificationList = utilities.buildClassificationList();
+//   res.body = classificationList;
+//   return res;
+// }
+
+invCont.addInventory = async function addInventory(req, res, next) {
+  let nav = await utilities.getNav()
+  const { inv_make, inv_model, inv_year, inv_description, inv_price, inv_miles, inv_color,  classification_id} = req.body
+
+  const regResult = await invModel.addInventory(inv_make, inv_model, inv_year, inv_description, inv_price, inv_miles, inv_color, classification_id);
+
+    if (regResult) {
+        req.flash('notice', `Congratulations, you've added ${inv_make, inv_model}.`);
+        return res.redirect('/inv/add-inventory'); // Redirecting to a page to show the notice
+    } else {
+        req.flash('error', "Sorry, the inventory addition failed.");
+        return res.redirect('/inv/add-inventory'); // Redirecting to the same page with an error
+    }
+};
+
+
+
 invCont.triggerError = (req, res, next) => {
   // Intentionally throw an error
   throw new Error("This is an intentional error for testing purposes.");

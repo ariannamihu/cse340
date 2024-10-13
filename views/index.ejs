@@ -4,7 +4,16 @@
     <img id="background-img" src="images/site/small_check.jpg" alt="Background Image" style="width: 100%; height: fit-content; position: absolute; top: 0; left: 0; z-index: -1;">
     <h1>Welcome to CSE Motors!</h1>
 
-    <%- messages() %>
+    
+    <% if (messages.notice) { %>
+        <div class="alert alert-success">
+            <ul>
+                <% messages.notice.forEach(function(msg) { %>
+                    <li><%= msg %></li>
+                <% }) %>
+            </ul>
+        </div>
+    <% } %>
 
     <div id="hero">
         <img class="hero-image"  src="images/vehicles/delorean.jpg" alt="a Delorean Vehicle">

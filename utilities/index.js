@@ -36,7 +36,7 @@ Util.handleErrors = fn => (req, res, next) =>
     next(err); // Pass the error to the next middleware
   });
 
-module.exports = Util
+
 
 
 /* **************************************
@@ -72,6 +72,28 @@ Util.buildClassificationGrid = async function(data){
     return grid
   }
 
+  Util.buildClassificationList = async function (classification_id = null) {
+    let data = await invModel.getClassifications()
+    let classificationList =
+      '<select name="classification_id" id="classificationList" required>'
+    classificationList += "<option value=''>Choose a Classification</option>"
+    data.rows.forEach((row) => {
+      classificationList += '<option value="' + row.classification_id + '"'
+      if (
+        classification_id != null &&
+        row.classification_id == classification_id
+      ) {
+        classificationList += " selected "
+      }
+      classificationList += ">" + row.classification_name + "</option>"
+    })
+    classificationList += "</select>"
+    console.log("HERE HERE HERE HERE")
+    console.log(classificationList)
+    return classificationList
+  }
+
+  module.exports = Util
 
 /* **************************************
  * Build the detail view HTML
