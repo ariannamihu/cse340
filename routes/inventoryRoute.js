@@ -11,10 +11,16 @@ router.get("/type/:classificationId", invController.buildByClassificationId);
 router.get("/detail/:invId", invController.buildByInvId)
 
 // Route to build inventory by management view
-router.get("/management", invController.buildByManagementView);
+router.get("/", invController.buildByManagementView);
 
 // Route for Add New Classification View
 router.get('/add-classification', invController.addClassificationView);
+
+// Route to get inventory by classification_id
+router.get('/getInventory/:classification_id', Util.handleErrors(invController.getInventoryJSON))
+
+//Route to update inventory
+router.get('/edit/:inv_id', Util.handleErrors(invController.editInventoryView))
 
 router.post('/submit', function(req, res) {
     req.flash('notice', 'Your data was submitted successfully!');
@@ -26,6 +32,8 @@ router.post(
   "/add-classification",
   Util.handleErrors(invController.addClassification)
 )
+
+router.post("/update/", Util.handleErrors(invController.updateInventory))
 
 // Route to build add-inventory
 router.get('/add-inventory', invController.addInventoryView);

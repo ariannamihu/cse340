@@ -1,0 +1,77 @@
+<h1><%= title %></h1>
+
+
+<% if (messages.notice) { %>
+    <div class="alert alert-success">
+        <ul>
+            <% messages.notice.forEach(function(msg) { %>
+                <li><%= msg %></li>
+            <% }) %>
+        </ul>
+    </div>
+<% } %>
+
+<% if (messages.error) { %>
+    <div class="alert alert-danger">
+        <ul>
+            <% messages.error.forEach(function(msg) { %>
+                <li><%= msg %></li>
+            <% }) %>
+        </ul>
+    </div>
+<% } %>
+
+
+<!-- Inventory Form -->
+<div class=form id="updateForm">
+    <form  action="/inv/update" method="post">
+        <h1><%= title %></h1>
+        <div class=make>
+            <label>Make: </label>
+            <input type="text" name="inv_make" required value="<%= locals.inv_make %>">
+        </div>
+        <div class=model>
+            <label>Model: </label>
+            <input type="text" name="inv_model" required value="<%= locals.inv_model %>">
+        </div>
+        <div class=year>
+            <label>Year: </label>
+            <input type="text" name="inv_year" required value="<%= locals.inv_year %>">
+        </div>
+        <div class=description>
+            <label>Description: </label>
+            <input type="text" name="inv_description" required value="<%= locals.inv_description %>">
+        </div>
+        <div class="image">
+            <label>Image path: </label>
+            <input type="text" name="inv_image" required value="<%= locals.inv_image %>">
+        </div>
+        <div class="thumbnail">
+            <label>thumbnail path: </label>
+            <input type="text" name="inv_thumbnail" required value="<%= locals.inv_thumbnail %>">
+        </div>
+        <div class=price>
+            <label>Price: </label>
+            <input type="text" name="inv_price" required value="<%= locals.inv_price %>">
+        </div>
+        <div class=miles>
+            <label>Miles: </label>
+            <input type="text" name="inv_miles" required value="<%= locals.inv_miles %>">
+        </div>
+        <div class=color>
+            <label>Color: </label>
+            <input type="text" name="inv_color" required value="<%= locals.inv_color %>">
+        </div>
+        <div>
+            <label>Classification</label>
+            <%-classifications%>
+        </div>
+        
+        <button  type="submit">Update Vehicle</button disabled>
+        <input type="hidden" name="inv_id"
+        <% if(locals.inv_id) { %> value="<%= locals.inv_id %>"
+        <% } %>>
+    </form>
+</div> 
+
+<script src="/../../js/inv-udpate.js"></script>

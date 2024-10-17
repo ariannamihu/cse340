@@ -19,6 +19,7 @@ const flash = require("connect-flash");
 const pool = require('./database/');
 const accountRoute = require("./routes/accountRoute.js");
 const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
 
 /* ***********************
  * Middleware
@@ -43,8 +44,12 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
+app.use(cookieParser())
+
+app.use(utilities.checkJWTToken)
+
 
 /* ***********************
  * View engine and Templates
@@ -68,13 +73,21 @@ app.use("/inv", inventoryRoute);
 app.use("/account", accountRoute);
 
 // Trigger a 500 error route
-app.get("/inv/500error", (req, res, next) => {
-  next({ status: 500, message: 'This is an intentional error' });
+// Error-handling middleware (in server.js)
+app.use((err, req, res, next) => {
+  res.status(err.status || 500).json({
+    message: err.message || "Internal Server Error",
+    error: process.env.NODE_ENV === 'development' ? err : {} // Only show stack trace in development
+  });
 });
 
+
 // File Not Found Route - must be last route in list
-app.use((req, res, next) => {
-  next({ status: 404, message: 'Sorry, we appear to have lost that page.' });
+app.use((err, req, res, next) => {
+  res.status(err.status || 400).json({
+    message: err.message || "Page not found",
+    error: process.env.NODE_ENV === 'development' ? err : {} // Only show stack trace in development
+  });
 });
 
 /* ***********************
@@ -94,6 +107,9 @@ app.use(async (err, req, res, next) => {
     nav
   });
 });
+
+
+
 
 /* ***********************
  * Local Server Information
