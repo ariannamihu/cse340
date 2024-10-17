@@ -22,6 +22,12 @@ router.get('/getInventory/:classification_id', Util.handleErrors(invController.g
 //Route to update inventory
 router.get('/edit/:inv_id', Util.handleErrors(invController.editInventoryView))
 
+// Route to get the delete view
+router.get("/delete/:inv_id", invController.buildDeleteConfirmationView)
+
+//Route to post the delete confirmation
+router.post("/delete-confirmed", invController.processDelete)
+
 router.post('/submit', function(req, res) {
     req.flash('notice', 'Your data was submitted successfully!');
     req.flash('error', 'There was an error processing your data.');

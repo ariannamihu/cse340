@@ -90,8 +90,7 @@ Util.buildClassificationGrid = async function(data){
       classificationList += ">" + row.classification_name + "</option>"
     })
     classificationList += "</select>"
-    console.log("HERE HERE HERE HERE")
-    console.log(classificationList)
+    console.log("Build classification list successful")
     return classificationList
   }
 
