@@ -5,11 +5,15 @@
       res.redirect('/')
     } %>
 
-<% if (messages && messages.length > 0) { %>
-    <div class="alert alert-info">
-      <%= messages %>
+
+<% if (messages.notice) { %>
+    <div class="alert alert-success">
+        <% messages.notice.forEach(function(msg) { %>
+            <%= msg %>
+        <% }) %>
     </div>
-  <% } %>
+<% } %>
+
 
 <div class=form>
     <form id="loginForm" action="/account/login-new" method="post">

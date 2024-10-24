@@ -19,8 +19,12 @@ body{
 
 .header-container {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   padding: 25px;
+}
+
+#management-main{
+  margin-left: 20px;
 }
 
 #top-header a {

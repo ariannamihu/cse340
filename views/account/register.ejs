@@ -5,10 +5,12 @@
       res.redirect('/')
     } %>
 
-<% if (messages.length > 0) { %>
-  <div class="alert alert-info">
-    <%= messages %>
-  </div>
+<% if (messages.notice) { %>
+    <div class="alert alert-success">
+        <% messages.notice.forEach(function(msg) { %>
+            <%= msg %>
+        <% }) %>
+    </div>
 <% } %>
 
 

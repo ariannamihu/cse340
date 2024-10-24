@@ -1,0 +1,40 @@
+<h1><%= title %></h1>
+<% if (messages.length > 0) { %>
+    <div class="flash-message">
+        <% messages.forEach(function(message) { %>
+            <p><%= message %></p>
+        <% }); %>
+    </div>
+<% } %>
+
+<form action="/account/update" method="post">
+    <h2>Update Account: </h2>
+    <div class=firstName>
+        <label for="account_firstname">First name:</label>
+        <input type="text" name="account_firstname" id="account_firstname" value="<%= data.account_firstname %>">
+    </div>
+    <div class=lastName>
+        <label for="account_lastname">Last name:</label>
+        <input type="text" name="account_lastname" id="account_lastname" value="<%= data.account_lastname %>">
+    </div>
+    <div class=email>
+        <label for="account_email">Email:</label>
+        <input type="email" name="account_email" id="account_email" value="<%= data.account_email %>">
+    </div>
+    <input type="hidden" name="account_id"
+        <% if(data.account_id) { %> value="<%= data.account_id %>"
+        <% } %>>
+    <button type="submit">Submit Change</button>
+</form>
+
+<form action="/account/change-password" method="post">
+    <h2>Change Password: </h2>
+    <label for="account_password">New Password:</label>
+    <input type="password" name="account_password" id="account_password" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$">
+    <p>Password must contain: 12+ characters,1 lowercase, 1 capital, 1 number, and 1 special character</p>
+    <input type="hidden" name="account_id"
+        <% if(data.account_id) { %> value="<%= data.account_id %>"
+        <% } %>>
+    <button type="submit">Update Password</button>
+</form>
+

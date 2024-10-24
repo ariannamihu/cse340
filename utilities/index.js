@@ -141,6 +141,7 @@ Util.checkJWTToken = (req, res, next) => {
       return res.redirect("/account/login")
      }
      res.locals.accountData = accountData
+     console.log(accountData)
      res.locals.loggedin = 1
      next()
     })
@@ -148,6 +149,45 @@ Util.checkJWTToken = (req, res, next) => {
    next()
   }
  }
+
+ /* ****************************************
+ *  Check if user is an employee or admin
+ * ************************************ */
+ Util.checkAccountType = (req, res, next) => {
+  // Check if the JWT token exists in cookies
+  if (req.cookies.jwt) {
+    jwt.verify(
+      req.cookies.jwt,
+      process.env.ACCESS_TOKEN_SECRET,
+      function (err, accountData) {
+        if (err) {
+          // If there is an error verifying the token, log out the user
+          req.flash('notice', 'Invalid session. Please log in again.');
+          res.clearCookie('jwt');
+          return res.redirect('/account/login');
+        }
+
+        // Token verified, check if the user is 'Admin' or 'Employee'
+        const accountType = accountData.account_type;
+        if (accountType === 'Admin' || accountType === 'Employee') {
+          // User has access, proceed to the next middleware or route handler
+          res.locals.accountData = accountData;
+          res.locals.loggedin = 1; // Mark the user as logged in
+          next();
+        } else {
+          // User does not have the required role, redirect to login
+          req.flash('notice', 'You do not have the necessary permissions to access this page.');
+          res.clearCookie('jwt');
+          return res.redirect('/account/login');
+        }
+      }
+    );
+  } else {
+    // If no JWT token is present, redirect to login
+    req.flash('notice', 'Please log in to continue.');
+    return res.redirect('/account/login');
+  }
+};
 
 /* ****************************************
  *  Check Login

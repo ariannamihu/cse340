@@ -11,22 +11,22 @@ router.get("/type/:classificationId", invController.buildByClassificationId);
 router.get("/detail/:invId", invController.buildByInvId)
 
 // Route to build inventory by management view
-router.get("/", invController.buildByManagementView);
+router.get("/", Util.checkLogin, Util.handleErrors(invController.buildByManagementView));
 
 // Route for Add New Classification View
-router.get('/add-classification', invController.addClassificationView);
+router.get('/add-classification', Util.checkAccountType, invController.addClassificationView);
 
 // Route to get inventory by classification_id
 router.get('/getInventory/:classification_id', Util.handleErrors(invController.getInventoryJSON))
 
 //Route to update inventory
-router.get('/edit/:inv_id', Util.handleErrors(invController.editInventoryView))
+router.get('/edit/:inv_id', Util.checkAccountType, Util.handleErrors(invController.editInventoryView))
 
 // Route to get the delete view
-router.get("/delete/:inv_id", invController.buildDeleteConfirmationView)
+router.get("/delete/:inv_id", Util.checkAccountType, invController.buildDeleteConfirmationView)
 
 //Route to post the delete confirmation
-router.post("/delete-confirmed", invController.processDelete)
+router.post("/delete-confirmed", Util.checkAccountType, invController.processDelete)
 
 router.post('/submit', function(req, res) {
     req.flash('notice', 'Your data was submitted successfully!');
@@ -36,13 +36,13 @@ router.post('/submit', function(req, res) {
 
 router.post(
   "/add-classification",
-  Util.handleErrors(invController.addClassification)
+  Util.checkAccountType, Util.handleErrors(invController.addClassification)
 )
 
-router.post("/update/", Util.handleErrors(invController.updateInventory))
+router.post("/update/", Util.checkAccountType, Util.handleErrors(invController.updateInventory))
 
 // Route to build add-inventory
-router.get('/add-inventory', invController.addInventoryView);
+router.get('/add-inventory', Util.checkAccountType, invController.addInventoryView);
 
 // router.get('/inv/add-inventory', async (req, res) => {
 //     const classifications = await utilities.buildClassificationList();
@@ -51,7 +51,7 @@ router.get('/add-inventory', invController.addInventoryView);
 
 router.post(
     "/add-inventory",
-    Util.handleErrors(invController.addInventory)
+    Util.checkAccountType, Util.handleErrors(invController.addInventory)
   )
 
 // Route to trigger a 500 error

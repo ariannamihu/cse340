@@ -7,11 +7,9 @@
     
     <% if (messages.notice) { %>
         <div class="alert alert-success">
-            <ul>
-                <% messages.notice.forEach(function(msg) { %>
-                    <li><%= msg %></li>
-                <% }) %>
-            </ul>
+            <% messages.notice.forEach(function(msg) { %>
+                <%= msg %>
+            <% }) %>
         </div>
     <% } %>
 

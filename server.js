@@ -72,44 +72,32 @@ app.use("/inv", inventoryRoute);
 // Account routes
 app.use("/account", accountRoute);
 
-// Trigger a 500 error route
-// Error-handling middleware (in server.js)
-app.use((err, req, res, next) => {
-  res.status(err.status || 500).json({
-    message: err.message || "Internal Server Error",
-    error: process.env.NODE_ENV === 'development' ? err : {} // Only show stack trace in development
-  });
-});
+// // Trigger a 500 error route
+// // Error-handling middleware (in server.js)
+// app.use(async (req, res, next) => {
+//   next({status: 500, message: 'This is an intentional error. '})
+// })
 
 
 // File Not Found Route - must be last route in list
-app.use((err, req, res, next) => {
-  res.status(err.status || 400).json({
-    message: err.message || "Page not found",
-    error: process.env.NODE_ENV === 'development' ? err : {} // Only show stack trace in development
-  });
-});
+app.use(async (req, res, next) => {
+  next({status: 404, message: 'Sorry, we appear to have lost that page.'})
+})
 
 /* ***********************
 * Express Error Handler
+* Place after all other middleware
 *************************/
 app.use(async (err, req, res, next) => {
-  let nav = await utilities.getNav();
-  console.error(`Error at: "${req.originalUrl}": ${err.message}`);
-  
-  // Use the error message if it exists, otherwise set a default message
-  let message = err.message || 'Oh no! There was a crash. Maybe try a different route?';
-  
-  // Render the error view
+  let nav = await utilities.getNav()
+  console.error(`Error at: "${req.originalUrl}": ${err.message}`)
+  if(err.status == 404){ message = err.message} else {message = 'Oh no! There was a crash. Maybe try a different route?'}
   res.render("errors/error", {
     title: err.status || 'Server Error',
     message,
     nav
-  });
-});
-
-
-
+  })
+})
 
 /* ***********************
  * Local Server Information
